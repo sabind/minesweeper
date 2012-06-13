@@ -7,7 +7,7 @@ public class BombSquare extends GridSquare
 	private static final long serialVersionUID = 3532242734639397004L;
 	
 	private static final Color BLOW_UP = Color.RED;
-	private static final double DEFAULT_BOMB_GENERATION_RATIO = 0.4;
+	private static final double DEFAULT_BOMB_GENERATION_RATIO = 0.05;
 	
 	public static boolean shouldBeABomb() 
 	{
@@ -18,7 +18,7 @@ public class BombSquare extends GridSquare
 			return false;
 	}
 	
-	public int getType()
+	public int getSquareType()
 	{
 		return GridSquare.BOMB;
 	}
@@ -33,4 +33,11 @@ public class BombSquare extends GridSquare
 		System.out.println("Game Over!");
 		setBackground(BLOW_UP);
 	}
+
+    public void rightClick()
+    {
+        super.rightClick();
+        if (parentFrame.isGameWon())
+            System.out.println("YOU WIN!");
+    }
 }

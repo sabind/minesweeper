@@ -13,15 +13,20 @@ public class GridSquare extends JPanel implements MouseListener
 	private static final long serialVersionUID = 1523739159832757191L;
 	
 	private static final int SQUARE_SIDE_LENGTH = 75;
-	private static final Color NON_ACTIVE_COLOR = Color.LIGHT_GRAY;
-	private static final Color ACTIVE_COLOR = Color.RED;
-	private static final Color BORDER_COLOR = Color.BLACK;
+	public static final Color NON_ACTIVE_COLOR = Color.LIGHT_GRAY;
+    public static final Color CLEARED = Color.WHITE;
+    public static final Color FLAGGED_COLOR = Color.BLACK;
+    public static final Color BORDER_COLOR = Color.BLACK;
 	
 	private int xCoordinate, yCoordinate;
-	private MinesweeperGridFrame parentFrame;
+	protected MinesweeperGridFrame parentFrame;
 	
 	public static final int BOMB = 1;
 	public static final int EMPTY = 0;
+
+    public boolean covered = false;
+    public boolean isFlagged = false;
+    public boolean inProcessing = false;
 
 	public static GridSquare newGridSquare(int yCoordinate, int xCoordinate, MinesweeperGridFrame parentFrame)
 	{
@@ -35,7 +40,9 @@ public class GridSquare extends JPanel implements MouseListener
 	public GridSquare(int xCoordinate, int yCoordinate, MinesweeperGridFrame parentFrame)
 	{
 		super();
-		
+
+        covered = true;
+
 		this.xCoordinate = xCoordinate;
 		this.yCoordinate = yCoordinate;
 		
@@ -46,11 +53,26 @@ public class GridSquare extends JPanel implements MouseListener
 		setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
 		setBackground(NON_ACTIVE_COLOR);
 	}
-	
-	public int getType()
+
+    public int getXCoordinate()
+    {
+        return xCoordinate;
+    }
+
+    public int getYCoordinate()
+    {
+        return yCoordinate;
+    }
+
+	public int getSquareType()
 	{
 		return EMPTY;
 	}
+
+    public boolean isCovered()
+    {
+        return covered;
+    }
 	
 	public void leftClick() 
 	{
@@ -59,20 +81,32 @@ public class GridSquare extends JPanel implements MouseListener
 	
 	public void rightClick() 
 	{
+        if (!isFlagged && this.getSquareType() == BOMB)
+        {
+            parentFrame.decrementFlaggedBombs();
+        }
+        else if (isFlagged && this.getSquareType() == BOMB)
+        {
+            parentFrame.incrementFlaggedBombs();
+        }
+
+        isFlagged = !isFlagged;
 		swapColor();
 	}
 	
 	private void swapColor()
 	{
-		if (this.getBackground().equals(NON_ACTIVE_COLOR))
-			this.setBackground(ACTIVE_COLOR);
-		else
-			this.setBackground(NON_ACTIVE_COLOR);
+        if (this.isFlagged)
+            this.setBackground(FLAGGED_COLOR);
+		if (!this.isFlagged)
+            this.setBackground(NON_ACTIVE_COLOR);
+        else
+            this.setBackground(CLEARED);
 	}
 	
 	public void uncover()
 	{
-		parentFrame.uncover(xCoordinate, yCoordinate);
+		parentFrame.uncover(this);
 	}
 
 	@Override
@@ -87,7 +121,7 @@ public class GridSquare extends JPanel implements MouseListener
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		// fTODO Auto-generated method stub
 		
 	}
 
