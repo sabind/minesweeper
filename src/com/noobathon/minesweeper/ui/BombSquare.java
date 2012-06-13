@@ -30,14 +30,15 @@ public class BombSquare extends GridSquare
 
 	public void leftClick()
 	{
-		System.out.println("Game Over!");
-		setBackground(BLOW_UP);
+        if (!isFlagged)
+        {
+            System.out.println("Game Over!");
+            setBackground(BLOW_UP);
+        }
 	}
 
     public void rightClick()
     {
         super.rightClick();
-        if (parentFrame.isGameWon())
-            System.out.println("YOU WIN!");
     }
 }

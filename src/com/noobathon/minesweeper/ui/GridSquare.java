@@ -76,7 +76,8 @@ public class GridSquare extends JPanel implements MouseListener
 	
 	public void leftClick() 
 	{
-		uncover();
+        if (!isFlagged)
+		    uncover();
 	}
 	
 	public void rightClick() 
@@ -89,19 +90,31 @@ public class GridSquare extends JPanel implements MouseListener
         {
             parentFrame.incrementFlaggedBombs();
         }
+        else if (!isFlagged && this.getSquareType() != BOMB)
+        {
+            parentFrame.decrementBadFlags();
+        }
+        else if (isFlagged && this.getSquareType() != BOMB)
+        {
+            parentFrame.incrementBadFlags();
+        }
 
         isFlagged = !isFlagged;
 		swapColor();
+
+        if (parentFrame.isGameWon())
+            System.out.println("YOU WIN!");
 	}
 	
 	private void swapColor()
 	{
-        if (this.isFlagged)
-            this.setBackground(FLAGGED_COLOR);
-		if (!this.isFlagged)
-            this.setBackground(NON_ACTIVE_COLOR);
-        else
-            this.setBackground(CLEARED);
+        if (isCovered())
+        {
+            if (this.isFlagged)
+                this.setBackground(FLAGGED_COLOR);
+            else
+                this.setBackground(NON_ACTIVE_COLOR);
+        }
 	}
 	
 	public void uncover()

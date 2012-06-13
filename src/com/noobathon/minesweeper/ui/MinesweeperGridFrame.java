@@ -9,6 +9,7 @@ public class MinesweeperGridFrame extends JPanel
 	private static final long serialVersionUID = -7507810309330039636L;
 	private GridSquare[][] gridSquare2DArray;
     private int numActiveBombs;
+    private int badFlags;
 	private int max_xCoordinate;
 	private int max_yCoordinate;
 	
@@ -16,6 +17,7 @@ public class MinesweeperGridFrame extends JPanel
 	{
 		super();
         numActiveBombs = 0;
+        badFlags = 0;
 		
 		max_xCoordinate = gridColumns;
 		max_yCoordinate = gridRows;
@@ -53,9 +55,19 @@ public class MinesweeperGridFrame extends JPanel
         numActiveBombs++;
     }
 
+    public void decrementBadFlags()
+    {
+        badFlags--;
+    }
+
+    public void incrementBadFlags()
+    {
+        badFlags++;
+    }
+
     public boolean isGameWon()
     {
-        return numActiveBombs == 0;
+        return (badFlags == 0) && (numActiveBombs == 0);
     }
 
 	public void uncover(GridSquare origin)
