@@ -5,6 +5,7 @@ import com.noobathon.minesweeper.ui.GridSquare;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import com.noobathon.minesweeper.ui.MinesweeperGridFrame;
 import org.junit.Before;
@@ -63,5 +64,9 @@ public class GridSquareTest
         assertTrue(square0.isCovered());
     }
 
-g
+    @Test
+    public void gridSquareShouldBeInitializedToUnFlagged()
+    {
+        assertFalse(square0.isFlagged());
+    }
 }
