@@ -73,6 +73,11 @@ public class GridSquare extends JPanel implements MouseListener
     {
         return covered;
     }
+
+    public boolean isFlagged()
+    {
+        return isFlagged;
+    }
 	
 	public void leftClick() 
 	{
