@@ -11,6 +11,8 @@ import com.noobathon.minesweeper.ui.MinesweeperGridFrame;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
+
 public class GridSquareTest
 {
     private GridSquare square0;
@@ -22,6 +24,8 @@ public class GridSquareTest
     @Before
     public void setUp()
     {
+        frame = new MinesweeperGridFrame(15, 15);
+
         square0 = new GridSquare(0,0,frame);
         square1 = new GridSquare(1,1,frame);
         square2 = new BombSquare(2,2,frame);
@@ -68,5 +72,25 @@ public class GridSquareTest
     public void gridSquareShouldBeInitializedToUnFlagged()
     {
         assertFalse(square0.isFlagged());
+    }
+
+    @Test
+    public void rightClickingAGridSquareShouldToggleIsFlagged()
+    {
+        assertFalse(square0.isFlagged);
+        square0.rightClick();
+        assertTrue(square0.isFlagged);
+        square0.rightClick();
+        assertFalse(square0.isFlagged);
+    }
+
+    @Test
+    public void rightClickingAGridSquareShouldToggleColorsOfSquare()
+    {
+        assertEquals(GridSquare.NON_ACTIVE_COLOR, square0.getBackground());
+        square0.rightClick();
+        assertEquals(GridSquare.FLAGGED_COLOR, square0.getBackground());
+        square0.rightClick();
+        assertEquals(GridSquare.NON_ACTIVE_COLOR, square0.getBackground());
     }
 }
