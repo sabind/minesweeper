@@ -16,17 +16,8 @@ public class MinesweeperMainFrame extends JFrame
 	{
 		super("Minesweeper");
 		setLayout(new BorderLayout());
-		setupBorders();
 		setupGrid();
 		setupFrame();
-	}
-	
-	private void setupBorders()
-	{
-		this.add(new JLabel("This is MINESWEEPER!", JLabel.CENTER), BorderLayout.NORTH);
-		this.add(new JLabel("<HTML>H<br>E<br>L<br>L<br>O</HTML>"), BorderLayout.WEST);
-		this.add(new JLabel("<HTML>H<br>E<br>L<br>L<br>O</HTML>"), BorderLayout.EAST);
-		this.add(new JLabel("south", JLabel.CENTER), BorderLayout.SOUTH);
 	}
 	
 	private void setupGrid()
