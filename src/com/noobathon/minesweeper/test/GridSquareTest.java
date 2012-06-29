@@ -28,8 +28,8 @@ public class GridSquareTest
 
         square0 = new GridSquare(0,0,frame);
         square1 = new GridSquare(1,1,frame);
-        square2 = new BombSquare(2,2,frame);
-        square3 = new BombSquare(3,3,frame);
+        square2 = new GridSquare(2,2,frame);
+        square3 = new GridSquare(3,3,frame);
     }
 
     @Test
@@ -56,11 +56,6 @@ public class GridSquareTest
         assertEquals(square0.getSquareType(), GridSquare.EMPTY);
     }
 
-    @Test
-    public void bombSquareShouldReturnTypeOfBomb()
-    {
-        assertEquals(square3.getSquareType(), GridSquare.BOMB);
-    }
 
     @Test
     public void gridSquareShouldBeInitializedToCovered()
