@@ -1,6 +1,5 @@
 package com.noobathon.minesweeper.test;
 
-import com.noobathon.minesweeper.ui.BombSquare;
 import com.noobathon.minesweeper.ui.GridSquare;
 
 import static org.junit.Assert.assertEquals;
@@ -10,8 +9,6 @@ import static org.junit.Assert.assertFalse;
 import com.noobathon.minesweeper.ui.MinesweeperGridFrame;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.awt.*;
 
 public class GridSquareTest
 {

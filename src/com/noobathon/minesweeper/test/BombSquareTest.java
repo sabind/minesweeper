@@ -14,9 +14,6 @@ import org.junit.Test;
 public class BombSquareTest
 {
     private GridSquare square0;
-    private GridSquare square1;
-    private GridSquare square2;
-    private GridSquare square3;
     private MinesweeperGridFrame frame;
 
     @Before
@@ -25,9 +22,6 @@ public class BombSquareTest
         frame = new MinesweeperGridFrame(15, 15);
 
         square0 = new BombSquare(0,0,frame);
-        square1 = new BombSquare(1,1,frame);
-        square2 = new BombSquare(2,2,frame);
-        square3 = new BombSquare(3,3,frame);
     }
 
     @Test
