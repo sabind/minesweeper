@@ -1,8 +1,5 @@
 package com.noobathon.minesweeper.test;
 
-import com.noobathon.minesweeper.ui.BombSquare;
-import com.noobathon.minesweeper.ui.GridSquare;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -23,24 +20,28 @@ public class MinesweeperGridFrameTest
         initialNumBombs = frame.numActiveBombs();
     }
 
+    @Test
     public void decrementFlaggedBombsTest()
     {
         frame.decrementFlaggedBombs();
         assertEquals(initialNumBombs - 1, frame.numActiveBombs());
     }
-
+    
+    @Test
     public void incrementFlaggedBombsTest()
     {
         frame.incrementFlaggedBombs();
         assertEquals(initialNumBombs + 1, frame.numActiveBombs());
     }
 
+    @Test
     public void decrementBadFlagsTest()
     {
         frame.decrementBadFlags();
         assertEquals(-1, frame.numBadFlags());
     }
 
+    @Test
     public void incrementBadFlagsTest()
     {
         frame.incrementBadFlags();
