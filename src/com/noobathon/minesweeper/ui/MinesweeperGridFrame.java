@@ -65,6 +65,16 @@ public class MinesweeperGridFrame extends JPanel
         badFlags++;
     }
 
+    public int numActiveBombs()
+    {
+        return numActiveBombs;
+    }
+
+    public int numBadFlags()
+    {
+        return badFlags;
+    }
+
     public boolean isGameWon()
     {
         return (badFlags == 0) && (numActiveBombs == 0);
