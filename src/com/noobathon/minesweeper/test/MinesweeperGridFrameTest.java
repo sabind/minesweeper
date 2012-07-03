@@ -17,7 +17,7 @@ public class MinesweeperGridFrameTest
         frame = new MinesweeperGridFrame(15, 15);
         initialNumBombs = frame.numActiveBombs();
     }
-
+    
     @Test
     public void decrementFlaggedBombsTest()
     {
