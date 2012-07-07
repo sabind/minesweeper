@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GridSquare extends JPanel implements MouseListener
@@ -19,6 +20,7 @@ public class GridSquare extends JPanel implements MouseListener
     public static final Color BORDER_COLOR = Color.BLACK;
 	
 	private int xCoordinate, yCoordinate;
+	private JLabel numberOfBombsAround;
 	protected MinesweeperGridFrame parentFrame;
 	
 	public static final int BOMB = 1;
@@ -43,6 +45,9 @@ public class GridSquare extends JPanel implements MouseListener
 
         covered = true;
 
+        this.numberOfBombsAround = new JLabel("");
+        this.add(numberOfBombsAround);
+        
 		this.xCoordinate = xCoordinate;
 		this.yCoordinate = yCoordinate;
 		
@@ -125,6 +130,11 @@ public class GridSquare extends JPanel implements MouseListener
 	public void uncover()
 	{
 		parentFrame.uncover(this);
+	}
+	
+	public void setBombText(int numBombsAround)
+	{
+		numberOfBombsAround.setText("" + numBombsAround);
 	}
 
 	@Override

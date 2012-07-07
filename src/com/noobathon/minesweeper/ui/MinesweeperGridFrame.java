@@ -97,6 +97,7 @@ public class MinesweeperGridFrame extends JPanel
             if (bombsAround > 0)
             {
                 square.setBackground(Color.YELLOW);
+                square.setBombText(bombsAround);
             }
             else
             {
