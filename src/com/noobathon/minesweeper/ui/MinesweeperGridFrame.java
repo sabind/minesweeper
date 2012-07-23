@@ -27,6 +27,11 @@ public class MinesweeperGridFrame extends JPanel
 		buildGrid(gridRows, gridColumns);
 		setVisible(true);
 	}
+	
+	protected MinesweeperGridFrame()
+	{
+		super();
+	}
 
 	private void buildGrid(int gridRows, int gridColumns) 
 	{
@@ -35,7 +40,8 @@ public class MinesweeperGridFrame extends JPanel
 		{
 			for (int x = 0; x < gridColumns; ++x)
 			{
-				temp = GridSquare.newGridSquare(y, x, this);
+				temp = GridSquare.newGridSquare(y, x);
+				temp.setParentFrame(this);
 				add(temp);
                 if (temp.getSquareType() == GridSquare.BOMB)
                     numActiveBombs++;
@@ -85,18 +91,19 @@ public class MinesweeperGridFrame extends JPanel
         ArrayList<GridSquare> toUncover = new ArrayList<GridSquare>();
 
         toUncover.add(origin);
+        
         int bombsAround;
         GridSquare square;
 
         while (!toUncover.isEmpty())
         {
             square = toUncover.remove(0);
-            square.covered = false;
+            square.setCovered(false);
             bombsAround = countNeighboringBombs(square);
 
             if (bombsAround > 0)
             {
-                square.setBackground(Color.YELLOW);
+                square.setBackground(GridSquare.ALERT);
                 square.setBombText(bombsAround);
             }
             else
@@ -111,7 +118,7 @@ public class MinesweeperGridFrame extends JPanel
     {
         int xCoordinate = square.getXCoordinate();
         int yCoordinate = square.getYCoordinate();
-
+        
         int numBombs = 0;
 
         if (coordinatesAreInGrid(yCoordinate, xCoordinate - 1))
@@ -165,66 +172,66 @@ public class MinesweeperGridFrame extends JPanel
 
         if (coordinatesAreInGrid(yCoordinate, xCoordinate - 1) && gridSquare2DArray[yCoordinate][xCoordinate - 1].getSquareType() != GridSquare.BOMB)
         {
-            if (gridSquare2DArray[yCoordinate][xCoordinate - 1].isCovered() && !gridSquare2DArray[yCoordinate][xCoordinate - 1].inProcessing)
+            if (gridSquare2DArray[yCoordinate][xCoordinate - 1].isCovered() && !gridSquare2DArray[yCoordinate][xCoordinate - 1].isInProcessing())
             {
                 toUncover.add(gridSquare2DArray[yCoordinate][xCoordinate - 1]);
-                gridSquare2DArray[yCoordinate][xCoordinate - 1].inProcessing = true;
+                gridSquare2DArray[yCoordinate][xCoordinate - 1].startProcessing();
             }
         }
         if (coordinatesAreInGrid(yCoordinate, xCoordinate + 1) && gridSquare2DArray[yCoordinate][xCoordinate + 1].getSquareType() != GridSquare.BOMB)
         {
-            if (gridSquare2DArray[yCoordinate][xCoordinate + 1].isCovered() && !gridSquare2DArray[yCoordinate][xCoordinate + 1].inProcessing)
+            if (gridSquare2DArray[yCoordinate][xCoordinate + 1].isCovered() && !gridSquare2DArray[yCoordinate][xCoordinate + 1].isInProcessing())
             {
                 toUncover.add(gridSquare2DArray[yCoordinate][xCoordinate + 1]);
-                gridSquare2DArray[yCoordinate][xCoordinate + 1].inProcessing = false;
+                gridSquare2DArray[yCoordinate][xCoordinate + 1].startProcessing();
             }
         }
         if (coordinatesAreInGrid(yCoordinate + 1, xCoordinate - 1) && gridSquare2DArray[yCoordinate + 1][xCoordinate - 1].getSquareType() != GridSquare.BOMB)
         {
-            if (gridSquare2DArray[yCoordinate + 1][xCoordinate - 1].isCovered() && !gridSquare2DArray[yCoordinate + 1][xCoordinate - 1].inProcessing)
+            if (gridSquare2DArray[yCoordinate + 1][xCoordinate - 1].isCovered() && !gridSquare2DArray[yCoordinate + 1][xCoordinate - 1].isInProcessing())
             {
                 toUncover.add(gridSquare2DArray[yCoordinate + 1][xCoordinate - 1]);
-                gridSquare2DArray[yCoordinate + 1][xCoordinate - 1].inProcessing = true;
+                gridSquare2DArray[yCoordinate + 1][xCoordinate - 1].startProcessing();
             }
         }
         if (coordinatesAreInGrid(yCoordinate + 1, xCoordinate + 1) && gridSquare2DArray[yCoordinate + 1][xCoordinate + 1].getSquareType() != GridSquare.BOMB)
         {
-            if (gridSquare2DArray[yCoordinate + 1][xCoordinate + 1].isCovered() && !gridSquare2DArray[yCoordinate + 1][xCoordinate + 1].inProcessing)
+            if (gridSquare2DArray[yCoordinate + 1][xCoordinate + 1].isCovered() && !gridSquare2DArray[yCoordinate + 1][xCoordinate + 1].isInProcessing())
             {
                 toUncover.add(gridSquare2DArray[yCoordinate + 1][xCoordinate + 1]);
-                gridSquare2DArray[yCoordinate + 1][xCoordinate + 1].inProcessing = true;
+                gridSquare2DArray[yCoordinate + 1][xCoordinate + 1].startProcessing();
             }
         }
         if (coordinatesAreInGrid(yCoordinate + 1, xCoordinate) && gridSquare2DArray[yCoordinate + 1][xCoordinate].getSquareType() != GridSquare.BOMB)
         {
-            if (gridSquare2DArray[yCoordinate + 1][xCoordinate].isCovered() && !gridSquare2DArray[yCoordinate + 1][xCoordinate].inProcessing)
+            if (gridSquare2DArray[yCoordinate + 1][xCoordinate].isCovered() && !gridSquare2DArray[yCoordinate + 1][xCoordinate].isInProcessing())
             {
                 toUncover.add(gridSquare2DArray[yCoordinate + 1][xCoordinate]);
-                gridSquare2DArray[yCoordinate + 1][xCoordinate].inProcessing = true;
+                gridSquare2DArray[yCoordinate + 1][xCoordinate].startProcessing();
             }
         }
         if (coordinatesAreInGrid(yCoordinate - 1, xCoordinate - 1) && gridSquare2DArray[yCoordinate - 1][xCoordinate - 1].getSquareType() != GridSquare.BOMB)
         {
-            if (gridSquare2DArray[yCoordinate - 1][xCoordinate - 1].isCovered() && !gridSquare2DArray[yCoordinate - 1][xCoordinate - 1].inProcessing)
+            if (gridSquare2DArray[yCoordinate - 1][xCoordinate - 1].isCovered() && !gridSquare2DArray[yCoordinate - 1][xCoordinate - 1].isInProcessing())
             {
                 toUncover.add(gridSquare2DArray[yCoordinate - 1][xCoordinate - 1]);
-                gridSquare2DArray[yCoordinate - 1][xCoordinate - 1].inProcessing = true;
+                gridSquare2DArray[yCoordinate - 1][xCoordinate - 1].startProcessing();
             }
         }
         if (coordinatesAreInGrid(yCoordinate - 1, xCoordinate + 1) && gridSquare2DArray[yCoordinate - 1][xCoordinate + 1].getSquareType() != GridSquare.BOMB)
         {
-            if (gridSquare2DArray[yCoordinate - 1][xCoordinate + 1].isCovered() && !gridSquare2DArray[yCoordinate - 1][xCoordinate + 1].inProcessing)
+            if (gridSquare2DArray[yCoordinate - 1][xCoordinate + 1].isCovered() && !gridSquare2DArray[yCoordinate - 1][xCoordinate + 1].isInProcessing())
             {
                 toUncover.add(gridSquare2DArray[yCoordinate - 1][xCoordinate + 1]);
-                gridSquare2DArray[yCoordinate - 1][xCoordinate + 1].inProcessing = true;
+                gridSquare2DArray[yCoordinate - 1][xCoordinate + 1].startProcessing();
             }
         }
         if (coordinatesAreInGrid(yCoordinate - 1, xCoordinate) && gridSquare2DArray[yCoordinate - 1][xCoordinate].getSquareType() != GridSquare.BOMB)
         {
-            if (gridSquare2DArray[yCoordinate - 1][xCoordinate].isCovered() && !gridSquare2DArray[yCoordinate - 1][xCoordinate].inProcessing)
+            if (gridSquare2DArray[yCoordinate - 1][xCoordinate].isCovered() && !gridSquare2DArray[yCoordinate - 1][xCoordinate].isInProcessing())
             {
                 toUncover.add(gridSquare2DArray[yCoordinate - 1][xCoordinate]);
-                gridSquare2DArray[yCoordinate - 1][xCoordinate].inProcessing = true;
+                gridSquare2DArray[yCoordinate - 1][xCoordinate].startProcessing();
             }
         }
     }

@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-import com.noobathon.minesweeper.ui.MinesweeperGridFrame;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,17 +15,14 @@ public class GridSquareTest
     private GridSquare square1;
     private GridSquare square2;
     private GridSquare square3;
-    private MinesweeperGridFrame frame;
 
     @Before
     public void setUp()
     {
-        frame = new MinesweeperGridFrame(15, 15);
-
-        square0 = new GridSquare(0,0,frame);
-        square1 = new GridSquare(1,1,frame);
-        square2 = new GridSquare(2,2,frame);
-        square3 = new GridSquare(3,3,frame);
+        square0 = new GridSquare(0,0);
+        square1 = new GridSquare(1,1);
+        square2 = new GridSquare(2,2);
+        square3 = new GridSquare(3,3);
     }
 
     @Test
@@ -69,11 +65,11 @@ public class GridSquareTest
     @Test
     public void rightClickingAGridSquareShouldToggleIsFlagged()
     {
-        assertFalse(square0.isFlagged);
+        assertFalse(square0.isFlagged());
         square0.rightClick();
-        assertTrue(square0.isFlagged);
+        assertTrue(square0.isFlagged());
         square0.rightClick();
-        assertFalse(square0.isFlagged);
+        assertFalse(square0.isFlagged());
     }
 
     @Test

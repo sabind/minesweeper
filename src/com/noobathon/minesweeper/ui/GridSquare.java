@@ -16,6 +16,7 @@ public class GridSquare extends JPanel implements MouseListener
 	private static final int SQUARE_SIDE_LENGTH = 75;
 	public static final Color NON_ACTIVE_COLOR = Color.LIGHT_GRAY;
     public static final Color CLEARED = Color.WHITE;
+    public static final Color ALERT = Color.YELLOW;
     public static final Color FLAGGED_COLOR = Color.BLACK;
     public static final Color BORDER_COLOR = Color.BLACK;
 	
@@ -26,25 +27,25 @@ public class GridSquare extends JPanel implements MouseListener
 	public static final int BOMB = 1;
 	public static final int EMPTY = 0;
 
-    public boolean covered = false;
-    public boolean isFlagged = false;
-    public boolean inProcessing = false;
+    private boolean covered = false;
+    private boolean isFlagged = false;
+    private boolean inProcessing = false;
 
-	public static GridSquare newGridSquare(int yCoordinate, int xCoordinate, MinesweeperGridFrame parentFrame)
+	public static GridSquare newGridSquare(int yCoordinate, int xCoordinate)
 	{
 		if (BombSquare.shouldBeABomb())
-			return new BombSquare(xCoordinate, yCoordinate, parentFrame);
+			return new BombSquare(xCoordinate, yCoordinate);
 		else
-			return new GridSquare(xCoordinate, yCoordinate, parentFrame);
+			return new GridSquare(xCoordinate, yCoordinate);
 	}
 
 	
-	public GridSquare(int xCoordinate, int yCoordinate, MinesweeperGridFrame parentFrame)
+	public GridSquare(int xCoordinate, int yCoordinate)
 	{
 		super();
 
-        covered = true;
-
+        this.covered = true;
+        this.parentFrame = null;
         this.numberOfBombsAround = new JLabel("");
         this.add(numberOfBombsAround);
         
@@ -52,13 +53,17 @@ public class GridSquare extends JPanel implements MouseListener
 		this.yCoordinate = yCoordinate;
 		
 		this.addMouseListener(this);
-		
-		this.parentFrame = parentFrame;
+
 		setSize(SQUARE_SIDE_LENGTH, SQUARE_SIDE_LENGTH);
 		setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
 		setBackground(NON_ACTIVE_COLOR);
 	}
 
+	public void setParentFrame(MinesweeperGridFrame parent)
+	{
+		this.parentFrame = parent;
+	}
+	
     public int getXCoordinate()
     {
         return xCoordinate;
@@ -83,6 +88,21 @@ public class GridSquare extends JPanel implements MouseListener
     {
         return isFlagged;
     }
+    
+    public boolean isInProcessing()
+    {
+    	return inProcessing;
+    }
+    
+    public void startProcessing()
+    {
+    	inProcessing = true;
+    }
+    
+    public void stopProcessing()
+    {
+    	inProcessing = false;
+    }
 	
 	public void leftClick() 
 	{
@@ -92,28 +112,31 @@ public class GridSquare extends JPanel implements MouseListener
 	
 	public void rightClick() 
 	{
-        if (!isFlagged && this.getSquareType() == BOMB)
+		if (covered)
         {
-            parentFrame.decrementFlaggedBombs();
+			if (!isFlagged && this.getSquareType() == BOMB)
+	        {
+	            parentFrame.decrementFlaggedBombs();
+	        }
+	        else if (isFlagged && this.getSquareType() == BOMB)
+	        {
+	            parentFrame.incrementFlaggedBombs();
+	        }
+	        else if (!isFlagged && this.getSquareType() != BOMB)
+	        {
+	            parentFrame.decrementBadFlags();
+	        }
+	        else if (isFlagged && this.getSquareType() != BOMB)
+	        {
+	            parentFrame.incrementBadFlags();
+	        }
+	
+	        isFlagged = !isFlagged;
+			swapColor();
+	
+	        if (parentFrame.isGameWon())
+	            System.out.println("YOU WIN!");
         }
-        else if (isFlagged && this.getSquareType() == BOMB)
-        {
-            parentFrame.incrementFlaggedBombs();
-        }
-        else if (!isFlagged && this.getSquareType() != BOMB)
-        {
-            parentFrame.decrementBadFlags();
-        }
-        else if (isFlagged && this.getSquareType() != BOMB)
-        {
-            parentFrame.incrementBadFlags();
-        }
-
-        isFlagged = !isFlagged;
-		swapColor();
-
-        if (parentFrame.isGameWon())
-            System.out.println("YOU WIN!");
 	}
 	
 	private void swapColor()
@@ -169,5 +192,10 @@ public class GridSquare extends JPanel implements MouseListener
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	public void setCovered(boolean covered) {
+		this.covered = covered;
 	}
 }

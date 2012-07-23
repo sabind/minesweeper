@@ -23,15 +23,16 @@ public class BombSquare extends GridSquare
 		return GridSquare.BOMB;
 	}
 	
-	public BombSquare(int yCoordinate, int xCoordinate, MinesweeperGridFrame parentFrame)
+	public BombSquare(int yCoordinate, int xCoordinate)
 	{
-		super(xCoordinate, yCoordinate, parentFrame);
+		super(xCoordinate, yCoordinate);
 	}
 
 	public void leftClick()
 	{
-        if (!isFlagged)
+        if (!this.isFlagged())
         {
+        	this.setCovered(false);
             System.out.println("Game Over!");
             setBackground(BLOW_UP);
         }
