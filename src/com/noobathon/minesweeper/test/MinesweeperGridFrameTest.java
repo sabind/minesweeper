@@ -169,7 +169,7 @@ public class MinesweeperGridFrameTest
     			{
     				if (square.contains("E"))
     				{
-    					theGrid[i][j] = new GridSquare(j,j);
+    					theGrid[i][j] = new GridSquare(i,j);
     					theGrid[i][j].setParentFrame(this);
     				}
     				else if (square.contains("B"))
@@ -184,19 +184,10 @@ public class MinesweeperGridFrameTest
     				j++;
     			}
     			i++;
-    		}		
+    		}
+    		this.setGrid(theGrid, numActiveBombs);
     	}
     	
-        public void decrementFlaggedBombs()
-        {
-        	numActiveBombs--;
-        }
-
-        public void incrementFlaggedBombs()
-        {
-        	numActiveBombs++;
-        }
-        
         public void click(int index)
         {
         	Click click = clicks.get(index);
@@ -204,11 +195,6 @@ public class MinesweeperGridFrameTest
         		theGrid[click.y][click.x].leftClick();
         	else if (click.getType() == Click.RIGHT_CLICK)
         		theGrid[click.y][click.x].rightClick();
-        }
-        
-        public int numActiveBombs()
-        {
-        	return numActiveBombs;
         }
     }
 }

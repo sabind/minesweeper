@@ -17,7 +17,7 @@ public class GridSquare extends JPanel implements MouseListener
 	public static final Color NON_ACTIVE_COLOR = Color.LIGHT_GRAY;
     public static final Color CLEARED = Color.WHITE;
     public static final Color ALERT = Color.YELLOW;
-    public static final Color FLAGGED_COLOR = Color.BLACK;
+    public static final Color FLAGGED_COLOR = new Color(0,150,0);
     public static final Color BORDER_COLOR = Color.BLACK;
 	
 	private int xCoordinate, yCoordinate;
@@ -27,9 +27,9 @@ public class GridSquare extends JPanel implements MouseListener
 	public static final int BOMB = 1;
 	public static final int EMPTY = 0;
 
-    private boolean covered = false;
-    private boolean isFlagged = false;
-    private boolean inProcessing = false;
+    private boolean isCovered;
+    private boolean isFlagged;
+    private boolean inProcessing;
 
 	public static GridSquare newGridSquare(int yCoordinate, int xCoordinate)
 	{
@@ -44,7 +44,9 @@ public class GridSquare extends JPanel implements MouseListener
 	{
 		super();
 
-        this.covered = true;
+        this.isCovered = true;
+        this.isFlagged = false;
+        this.inProcessing = false;
         this.parentFrame = null;
         this.numberOfBombsAround = new JLabel("");
         this.add(numberOfBombsAround);
@@ -79,9 +81,13 @@ public class GridSquare extends JPanel implements MouseListener
 		return EMPTY;
 	}
 
+	public void setCovered(boolean covered) {
+		this.isCovered = covered;
+	}
+	
     public boolean isCovered()
     {
-        return covered;
+        return isCovered;
     }
 
     public boolean isFlagged()
@@ -112,7 +118,7 @@ public class GridSquare extends JPanel implements MouseListener
 	
 	public void rightClick() 
 	{
-		if (covered)
+		if (this.isCovered())
         {
 			if (!isFlagged && this.getSquareType() == BOMB)
 	        {
@@ -192,10 +198,5 @@ public class GridSquare extends JPanel implements MouseListener
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
-	}
-
-
-	public void setCovered(boolean covered) {
-		this.covered = covered;
 	}
 }

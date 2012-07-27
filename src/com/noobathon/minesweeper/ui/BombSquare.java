@@ -33,7 +33,7 @@ public class BombSquare extends GridSquare
         if (!this.isFlagged())
         {
         	this.setCovered(false);
-            System.out.println("Game Over!");
+            parentFrame.gameOver();
             setBackground(BLOW_UP);
         }
 	}

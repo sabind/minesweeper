@@ -28,6 +28,14 @@ public class MinesweeperGridFrame extends JPanel
 		setVisible(true);
 	}
 	
+	public void setGrid(GridSquare[][] grid, int numBombs)
+	{
+		gridSquare2DArray = grid;
+		max_yCoordinate = grid.length;
+		max_xCoordinate = grid[0].length;
+		numActiveBombs = numBombs;
+	}
+	
 	protected MinesweeperGridFrame()
 	{
 		super();
@@ -85,6 +93,20 @@ public class MinesweeperGridFrame extends JPanel
     {
         return (badFlags == 0) && (numActiveBombs == 0);
     }
+    
+    public void gameOver()
+    {
+    	for (GridSquare[] rows : gridSquare2DArray)
+    	{
+    		for (GridSquare square : rows)
+    		{
+    			if (square.getSquareType() == GridSquare.BOMB && !square.isFlagged())
+    			{	
+    				square.setBackground(BombSquare.BLOW_UP);
+    			}
+    		}
+    	}
+    }
 
 	public void uncover(GridSquare origin)
 	{
@@ -98,6 +120,7 @@ public class MinesweeperGridFrame extends JPanel
         while (!toUncover.isEmpty())
         {
             square = toUncover.remove(0);
+            square.startProcessing();
             square.setCovered(false);
             bombsAround = countNeighboringBombs(square);
 
