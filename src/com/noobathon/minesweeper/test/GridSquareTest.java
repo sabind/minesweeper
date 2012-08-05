@@ -1,11 +1,13 @@
 package com.noobathon.minesweeper.test;
 
 import com.noobathon.minesweeper.ui.GridSquare;
+import com.noobathon.minesweeper.ui.MinesweeperGridFrame;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,10 +21,15 @@ public class GridSquareTest
     @Before
     public void setUp()
     {
+    	MinesweeperGridFrame frame = EasyMock.createNiceMock(MinesweeperGridFrame.class);
         square0 = new GridSquare(0,0);
+        square0.setParentFrame(frame);
         square1 = new GridSquare(1,1);
+        square1.setParentFrame(frame);
         square2 = new GridSquare(2,2);
-        square3 = new GridSquare(3,3);
+        square2.setParentFrame(frame);
+        square3 = new GridSquare(3,3); 
+        square3.setParentFrame(frame);
     }
 
     @Test
