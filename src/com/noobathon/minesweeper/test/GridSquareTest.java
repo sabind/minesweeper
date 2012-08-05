@@ -7,11 +7,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-import org.easymock.EasyMock;
+import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GridSquareTest
+public class GridSquareTest extends EasyMockSupport
 {
     private GridSquare square0;
     private GridSquare square1;
@@ -21,7 +21,7 @@ public class GridSquareTest
     @Before
     public void setUp()
     {
-    	MinesweeperGridFrame frame = EasyMock.createNiceMock(MinesweeperGridFrame.class);
+    	MinesweeperGridFrame frame = createNiceMock(MinesweeperGridFrame.class);
         square0 = new GridSquare(0,0);
         square0.setParentFrame(frame);
         square1 = new GridSquare(1,1);
@@ -35,6 +35,7 @@ public class GridSquareTest
     @Test
     public void shouldBeAbleToRetrieveXCoordinate()
     {
+    	replayAll();
         assertEquals(square0.getXCoordinate(), 0);
         assertEquals(square1.getXCoordinate(), 1);
         assertEquals(square2.getXCoordinate(), 2);
@@ -44,6 +45,7 @@ public class GridSquareTest
     @Test
     public void shouldBeAbleToRetrieveYCoordinate()
     {
+    	replayAll();
         assertEquals(square0.getXCoordinate(), 0);
         assertEquals(square1.getXCoordinate(), 1);
         assertEquals(square2.getXCoordinate(), 2);
@@ -53,6 +55,7 @@ public class GridSquareTest
     @Test
     public void gridSquareShouldReturnTypeOfEmpty()
     {
+    	replayAll();
         assertEquals(square0.getSquareType(), GridSquare.EMPTY);
     }
 
@@ -60,18 +63,21 @@ public class GridSquareTest
     @Test
     public void gridSquareShouldBeInitializedToCovered()
     {
+    	replayAll();
         assertTrue(square0.isCovered());
     }
 
     @Test
     public void gridSquareShouldBeInitializedToUnFlagged()
     {
+    	replayAll();
         assertFalse(square0.isFlagged());
     }
 
     @Test
     public void rightClickingAGridSquareShouldToggleIsFlagged()
     {
+    	replayAll();
         assertFalse(square0.isFlagged());
         square0.rightClick();
         assertTrue(square0.isFlagged());
@@ -82,6 +88,7 @@ public class GridSquareTest
     @Test
     public void rightClickingAGridSquareShouldToggleColorsOfSquare()
     {
+    	replayAll();
         assertEquals(GridSquare.NON_ACTIVE_COLOR, square0.getBackground());
         square0.rightClick();
         assertEquals(GridSquare.FLAGGED_COLOR, square0.getBackground());

@@ -176,6 +176,7 @@ public class MinesweeperGridFrameTest
     				{
     					numActiveBombs++;
     					theGrid[i][j] = new BombSquare(i,j);
+    					theGrid[i][j].setParentFrame(this);
     				}
     				if (square.contains("L"))
     					clicks.add(new Click(j, i, Click.LEFT_CLICK));
