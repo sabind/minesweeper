@@ -9,6 +9,8 @@ public class MinesweeperGridFrame extends JPanel
 	private static final long serialVersionUID = -7507810309330039636L;
 	private GridSquare[][] gridSquare2DArray;
     private int numActiveBombs;
+    private int totalBombs;
+    private int squaresLeft;
     private int badFlags;
 	private int max_xCoordinate;
 	private int max_yCoordinate;
@@ -18,6 +20,8 @@ public class MinesweeperGridFrame extends JPanel
 		super();
         numActiveBombs = 0;
         badFlags = 0;
+
+        squaresLeft = gridRows * gridColumns;
 		
 		max_xCoordinate = gridColumns;
 		max_yCoordinate = gridRows;
@@ -33,7 +37,11 @@ public class MinesweeperGridFrame extends JPanel
 		gridSquare2DArray = grid;
 		max_yCoordinate = grid.length;
 		max_xCoordinate = grid[0].length;
+
+        squaresLeft = max_xCoordinate * max_yCoordinate;
+
 		numActiveBombs = numBombs;
+        totalBombs = numBombs;
 	}
 	
 	protected MinesweeperGridFrame()
@@ -57,6 +65,8 @@ public class MinesweeperGridFrame extends JPanel
 				gridSquare2DArray[y][x] = temp;
 			}
 		}
+
+        totalBombs = numActiveBombs;
 	}
 
     public void decrementFlaggedBombs()
@@ -91,7 +101,7 @@ public class MinesweeperGridFrame extends JPanel
 
     public boolean isGameWon()
     {
-        return (badFlags == 0) && (numActiveBombs == 0);
+        return (badFlags == 0) && ((numActiveBombs == 0) || (totalBombs == squaresLeft));
     }
     
     public void gameOver()
@@ -136,6 +146,8 @@ public class MinesweeperGridFrame extends JPanel
                     square.setBackground(GridSquare.CLEARED);
                     addNeighbors(square, toUncover);
                 }
+
+                squaresLeft--;
             }
         }
 	}

@@ -185,6 +185,42 @@ public class MinesweeperGridFrameTest
 
         assertFalse(tooManyFlagsFrame.isGameWon());
     }
+
+    @Test
+    public void oneClickWin()
+    {
+        String[][] oneClickWinGrid = {
+                { "LE", "E", "E", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+                { "E", "E", "B", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+                { "E", "E", "E", "E", "B" },
+        };
+
+        GridFrameTestDouble oneClickWinFrame = new GridFrameTestDouble(oneClickWinGrid, FRAME_HEIGHT, FRAME_WIDTH);
+
+        oneClickWinFrame.clickAll();
+
+        assertTrue(oneClickWinFrame.isGameWon());
+    }
+
+    @Test
+    public void NotAllFlaggedAndWin()
+    {
+        String[][] oneClickWinGrid = {
+                { "LE", "E", "E", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+                { "E", "E", "RB", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+                { "E", "E", "E", "E", "B" },
+        };
+
+        GridFrameTestDouble oneClickWinFrame = new GridFrameTestDouble(oneClickWinGrid, FRAME_HEIGHT, FRAME_WIDTH);
+
+        oneClickWinFrame.clickAll();
+
+        assertTrue(oneClickWinFrame.isGameWon());
+    }
     
     private class Click extends Point
     {

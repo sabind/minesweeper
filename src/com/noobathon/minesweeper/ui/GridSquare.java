@@ -114,6 +114,8 @@ public class GridSquare extends JPanel implements MouseListener
 	{
         if (!isFlagged)
 		    uncover();
+        if (parentFrame.isGameWon())
+            System.out.println("YOU WIN!");
 	}
 	
 	public void rightClick() 
