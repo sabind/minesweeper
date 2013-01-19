@@ -160,6 +160,11 @@ public class GridSquare extends JPanel implements MouseListener
 	{
 		parentFrame.uncover(this);
 	}
+
+    public void unFlag()
+    {
+        this.isFlagged = false;
+    }
 	
 	public void setBombText(int numBombsAround)
 	{

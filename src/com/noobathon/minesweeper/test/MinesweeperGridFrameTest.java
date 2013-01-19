@@ -1,6 +1,8 @@
 package com.noobathon.minesweeper.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Point;
 import java.util.LinkedList;
@@ -29,6 +31,7 @@ public class MinesweeperGridFrameTest
         		{ "E", "E", "E", "E", "E" },
         		{ "E", "E", "E", "E", "E" },
         };
+
         frame = new GridFrameTestDouble(testGrid, FRAME_HEIGHT, FRAME_WIDTH);
         initialNumBombs = frame.numActiveBombs();
     }
@@ -66,7 +69,8 @@ public class MinesweeperGridFrameTest
     {
     	frame.uncover(new GridSquare(-1, -1));
     }
-    
+
+    @Test
     public void uncoverDoesNotFailWhenCalledOutsideGridRangeTopRight()
     {
     	frame.uncover(new GridSquare(-1, FRAME_WIDTH + 1));
@@ -127,6 +131,60 @@ public class MinesweeperGridFrameTest
     	frame.click(2);
     	assertEquals(BombSquare.BLOW_UP, frame.theGrid[2][2].getBackground());
     }
+
+    @Test
+    public void taggingAllBombsShouldWinGame()
+    {
+        String[][] winGrid = {
+                { "LE", "E", "E", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+                { "E", "LE", "RB", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+        };
+
+        GridFrameTestDouble winFrame = new GridFrameTestDouble(winGrid, FRAME_HEIGHT, FRAME_WIDTH);
+
+        winFrame.clickAll();
+
+        assertTrue(winFrame.isGameWon());
+    }
+
+    @Test
+    public void notTaggingAllBombsShouldNotGame()
+    {
+        String[][] loseGrid = {
+                { "LE", "E", "E", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+                { "E", "LE", "RB", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+                { "E", "E", "E", "E", "B" },
+        };
+
+        GridFrameTestDouble loseFrame = new GridFrameTestDouble(loseGrid, FRAME_HEIGHT, FRAME_WIDTH);
+
+        loseFrame.clickAll();
+
+        assertFalse(loseFrame.isGameWon());
+    }
+
+    @Test
+    public void checkToMakeSureFlagIsClearedInCaseOfMassUncover()
+    {
+        String[][] tooManyFlagsGrid = {
+                { "RE", "LE", "E", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+                { "E", "LE", "RB", "E", "E" },
+                { "E", "E", "E", "E", "E" },
+                { "E", "E", "E", "E", "RB" },
+        };
+
+        GridFrameTestDouble tooManyFlagsFrame = new GridFrameTestDouble(tooManyFlagsGrid, FRAME_HEIGHT, FRAME_WIDTH);
+
+        tooManyFlagsFrame.clickAll();
+
+        assertFalse(tooManyFlagsFrame.isGameWon());
+    }
     
     private class Click extends Point
     {
@@ -161,7 +219,7 @@ public class MinesweeperGridFrameTest
     		clicks = new LinkedList<Click>();
     		numActiveBombs = 0;
     		
-    		int i = 0, j = 0;
+    		int i = 0, j;
     		for (String[] rows : grid)
     		{
     			j = 0;
@@ -196,6 +254,17 @@ public class MinesweeperGridFrameTest
         		theGrid[click.y][click.x].leftClick();
         	else if (click.getType() == Click.RIGHT_CLICK)
         		theGrid[click.y][click.x].rightClick();
+        }
+
+        public void clickAll()
+        {
+            for (Click click : clicks)
+            {
+                if (click.getType() == Click.LEFT_CLICK)
+                    theGrid[click.y][click.x].leftClick();
+                else if (click.getType() == Click.RIGHT_CLICK)
+                    theGrid[click.y][click.x].rightClick();
+            }
         }
     }
 }

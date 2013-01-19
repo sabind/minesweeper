@@ -120,19 +120,22 @@ public class MinesweeperGridFrame extends JPanel
         while (!toUncover.isEmpty())
         {
             square = toUncover.remove(0);
-            square.startProcessing();
-            square.setCovered(false);
-            bombsAround = countNeighboringBombs(square);
+            if (!square.isFlagged())
+            {
+                square.startProcessing();
+                square.setCovered(false);
+                bombsAround = countNeighboringBombs(square);
 
-            if (bombsAround > 0)
-            {
-                square.setBackground(GridSquare.ALERT);
-                square.setBombText(bombsAround);
-            }
-            else
-            {
-                square.setBackground(GridSquare.CLEARED);
-                addNeighbors(square, toUncover);
+                if (bombsAround > 0)
+                {
+                    square.setBackground(GridSquare.ALERT);
+                    square.setBombText(bombsAround);
+                }
+                else
+                {
+                    square.setBackground(GridSquare.CLEARED);
+                    addNeighbors(square, toUncover);
+                }
             }
         }
 	}
